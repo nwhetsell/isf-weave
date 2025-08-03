@@ -45,7 +45,7 @@
 #define PI 3.1415926535897932384626433832795
 vec3 cmap(float x)
 {
-    return pow(0.5 + 0.5 * cos(PI * x + vec3(1, 2, 3)), vec3(2.5));
+    return pow(0.5 + 0.5 * cos(PI * x + vec3(1., 2., 3.)), vec3(2.5));
 }
 
 void main()
