@@ -4,5 +4,4 @@
 
 This is an [ISF shader](https://isf.video) for volume tracing turbulently
 distorted SDFs dynamics, converted from
-[this ShaderToy shader](https://www.shadertoy.com/view/W3SSRm) by
-[Florian Berger](https://www.flockaroo.at).
+[this ShaderToy shader](https://www.shadertoy.com/view/W3SSRm).
