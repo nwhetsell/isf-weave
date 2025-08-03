@@ -4,7 +4,40 @@
     ],
     "CREDIT": "chronos <https://www.shadertoy.com/user/chronos>",
     "DESCRIPTION": "Volume tracing turbulently distorted SDFs, converted from <https://www.shadertoy.com/view/W3SSRm>",
-    "INPUTS": [],
+    "INPUTS": [
+        {
+            "NAME": "focal",
+            "LABEL": "Focal length",
+            "TYPE": "float",
+            "DEFAULT": 2.25,
+            "MAX": 100,
+            "MIN": 0
+        },
+        {
+            "NAME": "twist",
+            "LABEL": "Twist",
+            "TYPE": "float",
+            "DEFAULT": 5,
+            "MAX": 100,
+            "MIN": 0
+        },
+        {
+            "NAME": "resolution",
+            "LABEL": "Resolution",
+            "TYPE": "float",
+            "DEFAULT": 10,
+            "MAX": 100,
+            "MIN": 0
+        },
+        {
+            "NAME": "saturation",
+            "LABEL": "Saturation",
+            "TYPE": "float",
+            "DEFAULT": 50,
+            "MAX": 100,
+            "MIN": 0
+        }
+    ],
     "ISFVSN": "2"
 }
 */
@@ -20,7 +53,6 @@ vec3 cmap(float x) { return pow(.5+.5*cos(PI * x + vec3(1,2,3)), vec3(2.5)); }
 void main()
 {
     vec2 uv = (2. * fragCoord-iResolution.xy)/iResolution.y;
-    float focal = 2.25;
     vec3 ro = vec3(0,0,iTime);
     vec3 rd = normalize(vec3(uv, -focal));
     vec3 color = vec3(0);
@@ -28,7 +60,7 @@ void main()
     for (int i = 0; i < 99; i++) {
         vec3 p = t * rd + ro;
 
-        float T = (t+iTime)/5.;
+        float T = (t+iTime)/twist;
         float c = cos(T), s = sin(T);
         p.xy = mat2(c,-s,s,c) * p.xy;
 
@@ -36,7 +68,7 @@ void main()
             float a = exp(f)/exp2(f);
             p += cos(p.yzx * a + iTime)/a;
         }
-        float d = 1./50. + abs((ro -p-vec3(0,1,0)).y-1.)/10.;
+        float d = 1./saturation + abs((ro -p-vec3(0,1,0)).y-1.)/resolution;
         color += cmap(t) * 2e-3 / d;
         t += d;
     }
